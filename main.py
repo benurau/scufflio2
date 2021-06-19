@@ -17,13 +17,6 @@ def index():
 def gues():
     return render_template("quesser.html")
 
-@app.route('/gues_coords', methods = ['POST', 'GET'])
-def diez():
-    request.method = 'GET'
-    #request_data = request.json
-    d = {"currX": coordsx}
-    return jsonify(d)
-
 
 @app.route('/scrib',methods = ['POST', 'GET'])
 def login():
@@ -34,13 +27,7 @@ def login():
       request_data = request.json
 
       coordsx.append(request_data["currX"])
-      print(request.data)
       coordsy.append(request_data["currY"])
-
-      if len(coordsx) > 1000:
-        print(coordsx)
-        plt.scatter(x=coordsx, y=coordsy)
-        plt.show()
 
     elif request.method == "GET":
       d = {"currX": coordsx,
