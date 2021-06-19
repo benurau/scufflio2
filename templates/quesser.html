@@ -77,14 +77,13 @@
         else y = 2;
 
     }
-
+    var timer = setInterval( draw, 10);
     function draw() {
 
         req = $.ajax({
 	            data : JSON.stringify({"currX" : currX,
 	            "currY" : currY,
-	            "color" : x,
-	            "host" : 0
+	            "color" : x
 	            }),
 
 	            url: "/scrib",
@@ -95,9 +94,17 @@
         );
 
 
-        //var parsed = JSON.parse(req.responseText);
-            console.log(req)
+        var parsed = JSON.parse(req.responseText);
+            console.log(parsed)
 
+
+        prevX = parsed.currX[parsed.currX.length-5];
+        prevY = parsed.currY[parsed.currY.length-5];
+
+        currX = parsed.currX[parsed.currX.length-1];
+        currY = parsed.currY[parsed.currY.length-1];
+
+        console.log(currX,currY)
         ctx.beginPath();
         ctx.moveTo(prevX, prevY);
         ctx.lineTo(currX, currY);
