@@ -28,12 +28,11 @@ def login():
 
       coordsx.append(request_data["currX"])
       coordsy.append(request_data["currY"])
-
+      print(request_data)
     elif request.method == "GET":
       d = {"currX": coordsx,
            "currY": coordsy
            }
-      print(coordsx)
       return jsonify(d)
 
 
