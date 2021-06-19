@@ -85,7 +85,13 @@
         ctx.strokeStyle = x;
         ctx.lineWidth = y;
         ctx.stroke();
-        ctx.closePath();        
+        ctx.closePath();
+
+        if (res == 'down') {
+            on == 1
+        } else {
+            on == 2
+        }
 
 
 			req = $.ajax({
@@ -93,7 +99,7 @@
 	            data : JSON.stringify({"currX" : currX,
 	            "currY" : currY,
 	            "color" : x,
-	            "host" : 1
+	            "host" : on
 	            }),
 	            url: "/scrib",
 	            type: "POST",
@@ -124,6 +130,7 @@
             prevY = currY;
             currX = e.clientX - canvas.offsetLeft;
             currY = e.clientY - canvas.offsetTop;
+
     
             flag = true;
             dot_flag = true;
