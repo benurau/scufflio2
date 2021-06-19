@@ -43,7 +43,9 @@ def login():
         plt.show()
 
     elif request.method == "GET":
-      d = {"currX": coordsx}
+      d = {"currX": coordsx,
+           "currY": coordsy
+           }
       print(coordsx)
       return jsonify(d)
 
