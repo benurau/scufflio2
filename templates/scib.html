@@ -87,11 +87,6 @@
         ctx.stroke();
         ctx.closePath();
 
-        if (res == 'down') {
-            on == 1
-        } else {
-            on == 2
-        }
 
 
 			req = $.ajax({
@@ -99,7 +94,7 @@
 	            data : JSON.stringify({"currX" : currX,
 	            "currY" : currY,
 	            "color" : x,
-	            "host" : on
+	            "host" : "on"
 	            }),
 	            url: "/scrib",
 	            type: "POST",

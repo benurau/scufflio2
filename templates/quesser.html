@@ -104,6 +104,11 @@
         currX = parsed.currX[parsed.currX.length-1];
         currY = parsed.currY[parsed.currY.length-1];
 
+        if (Math.abs(currX - prevX) >3 && Math.abs(currY - prevY)>3) {
+            prevX = currX;
+            prevY = currY;
+        }
+
         console.log(currX,currY)
         ctx.beginPath();
         ctx.moveTo(prevX, prevY);
