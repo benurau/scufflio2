@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 coordsx = []
 coordsy = []
+color = "black"
 
 
 class User:
@@ -111,6 +112,7 @@ class Words:
 
 
 
+
 @app.route('/')
 def index():
     return render_template("scib.html")
@@ -137,16 +139,20 @@ def get_my_ip():
 def login():
     global coordsx
     global coordsy
+    global color
 
     if request.method == "POST":
       request_data = request.json
 
       coordsx.append(request_data["currX"])
       coordsy.append(request_data["currY"])
+      color = request_data["color"]
       print(request_data)
+
     elif request.method == "GET":
       d = {"currX": coordsx,
-           "currY": coordsy
+           "currY": coordsy,
+           "color": color
            }
       return jsonify(d)
 
