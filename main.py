@@ -17,6 +17,13 @@ def index():
 def gues():
     return render_template("quesser.html")
 
+@app.route('/get_words')
+def benu():
+    words = ["benu","pp","dummy","small"]
+    return jsonify(words)
+
+
+
 
 @app.route('/scrib',methods = ['POST', 'GET'])
 def login():
