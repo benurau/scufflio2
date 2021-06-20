@@ -20,7 +20,8 @@ def gues():
 @app.route('/get_words')
 def benu():
     words = ["benu","pp","dummy","small"]
-    return jsonify(words)
+    d = {"words": words}
+    return jsonify(d)
 
 
 
