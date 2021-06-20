@@ -2,6 +2,10 @@
 import matplotlib.pyplot as plt
 from flask import Flask, render_template, Response,jsonify,request
 from flask import g
+import pandas as pd
+import time
+import random
+
 
 app = Flask(__name__)
 
@@ -36,6 +40,7 @@ class Game:
         self.order_list = []
         self.round_time_left = 0
         self.current_painter = ""
+        self.word_chosen = ""
         self.round_length = 7
 
     def add_player(self, user: User):
@@ -79,6 +84,31 @@ class Game:
     def has_guessed_correctly(self):
         return [(x.ip,x.guessed_correct) for x in self.players]
 
+    def guess(self, User, guess):
+        if guess == self.word_chosen:
+            User.add_guessed_correct()
+
+    def chose_word(self,word):
+        self.word_chosen = word
+
+
+class Words:
+    def __init__(self,file):
+        df = pd.read_csv(file)
+        self.words = []
+        for x in df["word"]:
+            self.words.append(x)
+        self.word_count = len(self.words)
+        print(self.word_count)
+
+    def get_n_words(self,n):
+        out_list = []
+        for x in range(n):
+            rng = random.randint(0,self.word_count)
+            out_list.append(self.words[rng])
+            self.words.pop(rng)
+        return out_list
+
 
 
 @app.route('/')
@@ -119,7 +149,6 @@ def login():
            "currY": coordsy
            }
       return jsonify(d)
-
 
 
 if __name__ == "__main__":
