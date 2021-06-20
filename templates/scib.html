@@ -115,7 +115,13 @@
     }
     
     
-    
+
+    function myfunction(word){
+        m = word;
+        document.getElementById("buttons").style.display="none";
+
+    }
+
     
     
     
@@ -152,6 +158,19 @@
     }
     </script>
     <body onload="init()">
+
+
+        <div style="center" class="btn-group" id="buttons" role="group" aria-label="Basic example">
+            <center>
+                  <button type="button" class="btn btn-primary" id="1" onclick="myfunction(1)">Left</button>
+                  <button type="button" class="btn btn-primary" id="2" onclick="myfunction(2)">Middle</button>
+                  <button type="button" class="btn btn-primary" id="3" onclick="myfunction(3)">Right</button>
+                  <button type="button" class="btn btn-primary" id="4" onclick="myfunction(4)">Right</button>
+                  <button type="button" class="btn btn-primary" id="5" onclick="myfunction(5)">Right</button>
+            </center>
+        </div>
+
+
         <canvas id="can" width="1000" height="700" style="position:absolute;top:25%;left:22%;border:2px solid;"></canvas>
         <div style="position:absolute;top:12%;left:43%;">Choose Color</div>
         <div style="position:absolute;top:15%;left:45%;width:10px;height:10px;background:green;" id="green" onclick="color(this)"></div>
