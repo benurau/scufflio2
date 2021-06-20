@@ -8,7 +8,9 @@ app = Flask(__name__)
 coordsx = []
 coordsy = []
 
+
 class User:
+
     def __init__(self, ip):
         self.ip = ip
         self.points = 0
@@ -25,14 +27,27 @@ class User:
         self.guessed_correct = True
 
 
+class Game:
 
-class Game():
     def __init__(self):
         self.round = 1
+        self.small_round = 1
         self.players = []
+        self.order_list = []
+        self.round_time_left = 0
+        self.current_painter = ""
+        self.round_length = 7
 
-    def add_player(self,user:User):
+    def add_player(self, user: User):
         self.players.append(user)
+
+    def next_small_round(self):
+        self.small_round += 1
+        # Get last player of list
+        self.current_painter = self.order_list[0]
+        # Remove him from the list
+        self.order_list.pop(0)
+        print("Painter chosen:",self.current_painter.ip)
 
     def next_round(self):
         self.round += 1
@@ -40,9 +55,30 @@ class Game():
     def get_current_round(self):
         return self.round
 
+    def get_players(self):
+        return self.players
+
     def get_player_scores(self):
-        players = [(x,x.points) for x in self.players]
-        print(players)
+        players = sorted([(x.ip, x.points) for x in self.players], key=lambda i: i[1], reverse=True)
+        return players
+
+    def start_small_round(self):
+        self.round_time_left = self.round_length
+        print("Round started")
+
+    def tick(self):
+        self.round_time_left -= 1
+        print(self.round_time_left)
+        if self.round_time_left == 0:
+            return True
+
+    def update_order_list(self):
+        self.order_list = [x for x in self.players]
+        return self.order_list
+
+    def has_guessed_correctly(self):
+        return [(x.ip,x.guessed_correct) for x in self.players]
+
 
 
 @app.route('/')
