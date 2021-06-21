@@ -116,9 +116,24 @@
     
     
 
-    function myfunction(word){
-        m = word;
-        document.getElementById("buttons").style.display="none";
+    function myfunction(){
+        req = $.ajax({ data : JSON.stringify({
+            "words" : words
+            }),        
+            url: "/get_words",
+            type: "GET",
+            contentType: "application/json",
+            async: false
+            }
+            );
+        
+        
+        var sanat = JSON.parse(req);
+        console.log(sanat)
+        
+    
+        
+        
 
     }
 
@@ -157,16 +172,16 @@
         }
     }
     </script>
-    <body onload="init()">
+    <body onload="init(); myfunction()">
 
 
-        <div style="center" class="btn-group" id="buttons" role="group" aria-label="Basic example">
+        <div class="btn-group" id="buttons" role="group"  varia-label="Basic example">
             <center>
-                  <button type="button" class="btn btn-primary" id="1" onclick="myfunction(1)">Left</button>
-                  <button type="button" class="btn btn-primary" id="2" onclick="myfunction(2)">Middle</button>
-                  <button type="button" class="btn btn-primary" id="3" onclick="myfunction(3)">Right</button>
-                  <button type="button" class="btn btn-primary" id="4" onclick="myfunction(4)">Right</button>
-                  <button type="button" class="btn btn-primary" id="5" onclick="myfunction(5)">Right</button>
+                  <button type="button" class="btn btn-primary" id="1" onclick="myfunction()">Left</button>
+                  <button type="button" class="btn btn-primary" id="2" onclick="myfunction()">Middle</button>
+                  <button type="button" class="btn btn-primary" id="3" onclick="myfunction()">Right</button>
+                  <button type="button" class="btn btn-primary" id="4" onclick="myfunction()">Right</button>
+                  <button type="button" class="btn btn-primary" id="5" onclick="myfunction()">Right</button>
             </center>
         </div>
 
