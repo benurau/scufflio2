@@ -17,7 +17,7 @@
 
 	</head>
 	<body>
-
+	<button style="position:absolute;top:94%;left:83%;" id="checkUsername">Check username</button>
 		<script type="text/javascript">
     var canvas, ctx, flag = false,
         prevX = 0,
@@ -136,7 +136,18 @@
         }
     }
 
-
+	function benupp() {
+    	var gues = document.getElementById("boxers").value;
+		req = $.ajax({
+	            data : JSON.stringify({"word":gues
+	            }),
+	            url: "/scrib",
+	            type: "POST",
+	            contentType: "application/json",
+	            async: false
+	        }
+        );
+    }
 
 
 
@@ -171,8 +182,18 @@
             }
         }
     }
+
+
+
+		$("#checkUsername").on("click", function() {
+			benupp();
+		});
     </script>
     <body onload="init()">
+	<iframe name="votar" style="display:none;"></iframe>
+        <form action="#" method="POST; GET" >
+            <input id="boxers" style="position:absolute;top:90%;left:80%;"  type="text"  name="fname">
+        </form>
         <canvas id="can" width="1000" height="700" style="position:absolute;top:25%;left:22%;border:2px solid;"></canvas>
         
 
