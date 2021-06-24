@@ -126,20 +126,22 @@
 	        }
            );
 
-        console.log(req)
-        var parsed = JSON.parse(req.responseText);
-        console.log(parsed)
+        var parsed = JSON.parse(req.responseText);      
         var lista = parsed.words;
 
 
         console.log(lista)
 
-        for (x in lista) {
+        for (var x in lista) {
            console.log(lista[x])
-           var word = lista[x];           
-           
-        }
+           var word = lista[x];
+           document.getElementById(x).innerText = word;
+        }       
 
+    }
+
+    function remove(){
+        document.getElementById("buttons").style.display="none";
     }
 
     
@@ -182,11 +184,11 @@
 
         <div class="btn-group" id="buttons" role="group"  varia-label="Basic example">
             <center>
-                  <button type="button" class="btn btn-primary" id="1" onclick="myfunction()">Left</button>
-                  <button type="button" class="btn btn-primary" id="2" onclick="myfunction()">Middle</button>
-                  <button type="button" class="btn btn-primary" id="3" onclick="myfunction()">Right</button>
-                  <button type="button" class="btn btn-primary" id="4" onclick="myfunction()">Right</button>
-                  <button type="button" class="btn btn-primary" id="5" onclick="myfunction()">Right</button>                
+                  <button type="button" class="btn btn-primary" id="0" onclick="remove()">Left</button>
+                  <button type="button" class="btn btn-primary" id="1" onclick="remove()">Middle</button>
+                  <button type="button" class="btn btn-primary" id="2" onclick="remove()">Right</button>
+                  <button type="button" class="btn btn-primary" id="3" onclick="remove()">Right</button>
+                  <button type="button" class="btn btn-primary" id="4" onclick="remove()">Right</button>                
 
             </center>
         </div>

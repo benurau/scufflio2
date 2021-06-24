@@ -126,7 +126,6 @@ def gues():
 def benu():
     words = ["benu", "pp", "dummy", "small"]
     d = {"words": words}
-    print(d)
     return jsonify(d)
 
 
