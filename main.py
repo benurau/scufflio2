@@ -138,6 +138,15 @@ def get_my_ip():
     print(request.remote_addr)
     #return jsonify({'ip': request.remote_addr}), 200
 
+@app.route("/chat_gues", methods=["POST"])
+def get_my_ip():
+    if request.method == "POST":
+        request_data = request.json
+        print(request_data)
+
+
+
+
 
 @app.route('/scrib',methods = ['POST', 'GET'])
 def login():
