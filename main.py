@@ -68,6 +68,13 @@ class Game:
         players = sorted([(x.ip, x.points) for x in self.players], key=lambda i: i[1], reverse=True)
         return players
 
+    def player_guessed_correctly(self,ip):
+
+        user = [x for x in self.players if x.ip == ip][0]
+        user.add_guessed_correct()
+        print(user,"guessed correctly")
+
+
     def start_small_round(self):
         self.round_time_left = self.round_length
         print("Round started")
@@ -111,11 +118,16 @@ class Words:
         return out_list
 
 
-
+game1 = Game()
 
 @app.route('/')
 def index():
+    global game1
+    print("User:",request.remote_addr,"connected")
+    user1 = User(request.remote_addr)
+    game1.add_player(user1)
     return render_template("scib.html")
+
 
 @app.route('/gues')
 def gues():
@@ -133,17 +145,27 @@ def benu():
     return jsonify(d)
 
 
-@app.route("/get_my_ip", methods=["GET"])
-def get_my_ip():
-    print(request.remote_addr)
-    #return jsonify({'ip': request.remote_addr}), 200
-
-@app.route("/chat_gues", methods=["POST"])
-def get_my_ip():
+@app.route("/user_chose_word", methods=["POST"])
+def chosen_word():
+    global game1
     if request.method == "POST":
         request_data = request.json
-        print(request_data)
+        game1.chose_word(request_data["word"])
 
+
+
+@app.route("/chat_gues", methods=["POST","GET"])
+def get_my_ip():
+    global game1
+    first_name = request.form.get("fname")
+    print(first_name)
+    if request.method == "GET":
+        request_data = request.form["fname"]
+        print(request_data)
+        guesser_ip = request.remote_addr
+        print(guesser_ip)
+        if request_data["word"] == game1.word_chosen():
+           game1.player_guessed_correctly(guesser_ip)
 
 
 
@@ -153,7 +175,7 @@ def login():
     global coordsx
     global coordsy
     global color
-
+    print(request.json)
     if request.method == "POST":
       request_data = request.json
 
