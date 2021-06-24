@@ -121,6 +121,10 @@ def index():
 def gues():
     return render_template("quesser.html")
 
+@app.route('/home')
+def home():
+    return render_template("home.html")    
+
 
 @app.route('/get_words', methods = ['GET'])
 def benu():

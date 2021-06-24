@@ -139,6 +139,13 @@
         }       
 
     }
+    var players = 0;
+    function playerjoin(){
+        players++;
+        document.getElementById("p" + players).style.display="";   
+        console.log("p" + players)     
+
+    }
 
     function remove(){
         document.getElementById("buttons").style.display="none";
@@ -180,7 +187,7 @@
     }
     </script>
     <body onload="init(); myfunction()">
-
+        <button type="button" class="btn btn-primary"  onclick="playerjoin()">yeet</button>
 
         <div class="btn-group" id="buttons" role="group"  varia-label="Basic example">
             <center>
@@ -194,10 +201,10 @@
         </div>
         
         <div id="players">
-             <h1>Empty</h1>          
-             <h1>Empty</h1>
-             <h1>Empty</h1>
-             <h1>Empty</h1>
+             <h1 id="p1" style="display: none;">Empty</h1>          
+             <h1 id="p2"  style="display: none;">Empty</h1>
+             <h1 id="p3"  style="display: none;">Empty</h1>
+             <h1 id="p4"  style="display: none;">Empty</h1>
         </div>
 
         <canvas id="can" width="1000" height="700" style="position:absolute;top:25%;left:22%;border:2px solid;"></canvas>
