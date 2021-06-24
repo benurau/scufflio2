@@ -157,15 +157,13 @@ def chosen_word():
 @app.route("/chat_gues", methods=["POST","GET"])
 def get_my_ip():
     global game1
-    first_name = request.form.get("fname")
-    print(first_name)
-    if request.method == "GET":
-        request_data = request.form["fname"]
-        print(request_data)
-        guesser_ip = request.remote_addr
-        print(guesser_ip)
-        if request_data["word"] == game1.word_chosen():
-           game1.player_guessed_correctly(guesser_ip)
+    print(game1)
+    request_data = request.json
+    print(request_data)
+    guesser_ip = request.remote_addr
+    print(guesser_ip)
+    if request_data["word"] == game1.chose_word():
+       game1.player_guessed_correctly(guesser_ip)
 
 
 
