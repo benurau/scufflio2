@@ -69,8 +69,7 @@ class Game:
         return players
 
     def player_guessed_correctly(self,ip):
-
-        user = [x for x in self.players if x.ip == ip][0]
+        user = [x for x in self.players if x.ip == str(ip)][0]
         user.add_guessed_correct()
         print(user,"guessed correctly")
 
@@ -148,9 +147,11 @@ def benu():
 @app.route("/user_chose_word", methods=["POST"])
 def chosen_word():
     global game1
+    print(request)
     if request.method == "POST":
         request_data = request.json
-        game1.chose_word(request_data["word"])
+        print(request_data["chose_word"],"chosen")
+        game1.chose_word(request_data["chose_word"])
 
 
 
@@ -158,12 +159,19 @@ def chosen_word():
 def get_my_ip():
     global game1
     print(game1)
+    #game1.chose_word('penis')
     request_data = request.json
     print(request_data)
     guesser_ip = request.remote_addr
     print(guesser_ip)
-    if request_data["word"] == game1.chose_word():
+    if request_data["word"] == game1.word_chosen:
        game1.player_guessed_correctly(guesser_ip)
+       print('CORRECT')
+       print(game1.has_guessed_correctly())
+       d = {"Correct":game1.word_chosen}
+       return jsonify(d)
+    else:
+        print("Not match:",request_data["word"], "!=", game1.word_chosen)
 
 
 
