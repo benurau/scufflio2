@@ -121,7 +121,8 @@ def index():
 def gues():
     return render_template("quesser.html")
 
-@app.route('/get_words',methods=["GET"])
+
+@app.route('/get_words', methods = ['GET'])
 def benu():
     words = ["benu", "pp", "dummy", "small"]
     d = {"words": words}

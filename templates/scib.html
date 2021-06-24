@@ -117,23 +117,28 @@
     
 
     function myfunction(){
-        req = $.ajax({ data : JSON.stringify({
-            "words" : words
-            }),        
-            url: "/get_words",
-            type: "GET",
-            contentType: "application/json",
-            async: false
-            }
-            );
-        
-        
-        var sanat = JSON.parse(req);
-        console.log(sanat)
-        
-    
-        
-        
+        req = $.ajax({
+
+	            url: "/get_words",
+	            type: "GET",
+	            contentType: "application/json",
+	            async: false
+	        }
+           );
+
+        console.log(req)
+        var parsed = JSON.parse(req.responseText);
+        console.log(parsed)
+        var lista = parsed.words;
+
+
+        console.log(lista)
+
+        for (x in lista) {
+           console.log(lista[x])
+           var word = lista[x];           
+           
+        }
 
     }
 
@@ -181,7 +186,8 @@
                   <button type="button" class="btn btn-primary" id="2" onclick="myfunction()">Middle</button>
                   <button type="button" class="btn btn-primary" id="3" onclick="myfunction()">Right</button>
                   <button type="button" class="btn btn-primary" id="4" onclick="myfunction()">Right</button>
-                  <button type="button" class="btn btn-primary" id="5" onclick="myfunction()">Right</button>
+                  <button type="button" class="btn btn-primary" id="5" onclick="myfunction()">Right</button>                
+
             </center>
         </div>
 
