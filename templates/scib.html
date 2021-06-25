@@ -147,8 +147,20 @@
 
     }
 
-    function remove(){
+    function remove(a){
         document.getElementById("buttons").style.display="none";
+        var chosen_word = document.getElementById(a).innerText;
+        document.getElementById("chosen_one").innerText = chosen_word;
+        req = $.ajax({
+                data : JSON.stringify({"chose_word":chosen_word
+                }),
+                url: "/user_chose_word",
+                type: "POST",
+                contentType: "application/json",
+                async: false
+            }
+        );
+
     }
 
     
@@ -188,14 +200,19 @@
     </script>
     <body onload="init(); myfunction()">
         <button type="button" class="btn btn-primary"  onclick="playerjoin()">yeet</button>
-
+        <div id="chosen_one" style="position:absolute;top:5%;left:45%;text-size-adjust: 200%;" ></div>
         <div class="btn-group" id="buttons" role="group"  varia-label="Basic example">
             <center>
-                  <button type="button" class="btn btn-primary" id="0" onclick="remove()">Left</button>
-                  <button type="button" class="btn btn-primary" id="1" onclick="remove()">Middle</button>
-                  <button type="button" class="btn btn-primary" id="2" onclick="remove()">Right</button>
-                  <button type="button" class="btn btn-primary" id="3" onclick="remove()">Right</button>
-                  <button type="button" class="btn btn-primary" id="4" onclick="remove()">Right</button>                
+
+                  <button type="button" class="btn btn-primary" id="1" onclick="remove(1)">Middle</button>
+                  <button type="button" class="btn btn-primary" id="2" onclick="remove(2)">Right</button>
+                  <button type="button" class="btn btn-primary" id="3" onclick="remove(3)">Right</button>
+                  <button type="button" class="btn btn-primary" id="4" onclick="remove(4)">Right</button>
+                  <button type="button" class="btn btn-primary" id="5" onclick="remove(5)">Left</button>
+                  <button type="button" class="btn btn-primary" id="6" onclick="remove(6)">Middle</button>
+                  <button type="button" class="btn btn-primary" id="7" onclick="remove(7)">Right</button>
+                  <button type="button" class="btn btn-primary" id="8" onclick="remove(8)">Right</button>
+                  <button type="button" class="btn btn-primary" id="9" onclick="remove(9)">Right</button>
 
             </center>
         </div>

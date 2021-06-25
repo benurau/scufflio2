@@ -5,9 +5,14 @@ from flask import g
 import pandas as pd
 import time
 import random
-
+import logging
+#log = logging.getLogger('werkzeug')
+#log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
+
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
 coordsx = []
 coordsy = []
@@ -118,6 +123,7 @@ class Words:
 
 
 game1 = Game()
+w1 = Words("words.csv")
 
 @app.route('/')
 def index():
@@ -139,9 +145,23 @@ def home():
 
 @app.route('/get_words', methods = ['GET'])
 def benu():
-    words = ["benu", "pp", "dummy", "small"]
+    global w1
+    words = w1.get_n_words(10)
     d = {"words": words}
     return jsonify(d)
+
+
+@app.route('/start_game', methods = ['GET'])
+def start_game():
+    global game1
+    print("players this round",game1.get_players())
+    # Set order of players
+    game1.update_order_list()
+    game1.next_small_round()
+    print(game1.current_painter)
+
+
+
 
 
 @app.route("/user_chose_word", methods=["POST"])
@@ -154,9 +174,8 @@ def chosen_word():
         game1.chose_word(request_data["chose_word"])
 
 
-
 @app.route("/chat_gues", methods=["POST","GET"])
-def get_my_ip():
+def chat_gues():
     global game1
     print(game1)
     #game1.chose_word('penis')
@@ -168,12 +187,10 @@ def get_my_ip():
        game1.player_guessed_correctly(guesser_ip)
        print('CORRECT')
        print(game1.has_guessed_correctly())
-       d = {"Correct":game1.word_chosen}
+       d = {"Correct": game1.word_chosen}
        return jsonify(d)
     else:
         print("Not match:",request_data["word"], "!=", game1.word_chosen)
-
-
 
 
 @app.route('/scrib',methods = ['POST', 'GET'])
