@@ -1,6 +1,6 @@
 #Import necessary libraries
 import matplotlib.pyplot as plt
-from flask import Flask, render_template, Response,jsonify,request
+from flask import Flask, render_template, Response,jsonify,request,redirect
 from flask import g
 import pandas as pd
 import time
@@ -44,21 +44,33 @@ class Game:
         self.small_round = 1
         self.players = []
         self.order_list = []
-        self.round_time_left = 0
+        self.round_time_left = 10
         self.current_painter = ""
         self.word_chosen = ""
         self.round_length = 7
+        self.game_started = 0
 
     def add_player(self, user: User):
         self.players.append(user)
 
     def next_small_round(self):
-        self.small_round += 1
-        # Get last player of list
-        self.current_painter = self.order_list[0]
-        # Remove him from the list
-        self.order_list.pop(0)
-        print("Painter chosen:",self.current_painter.ip)
+        if len(self.order_list)>0:
+            self.small_round += 1
+            # Get last player of list
+            self.current_painter = self.order_list[0]
+            # Remove him from the list
+            self.order_list.pop(0)
+            print("Painter chosen:",self.current_painter.ip)
+        else:
+            print("Small rounds ended, next big round start")
+            game1.update_order_list()
+            self.current_painter = self.order_list[0]
+            # Remove him from the list
+            self.order_list.pop(0)
+            print("Painter chosen:", self.current_painter.ip)
+
+
+
 
     def next_round(self):
         self.round += 1
@@ -103,6 +115,9 @@ class Game:
     def chose_word(self,word):
         self.word_chosen = word
 
+    def restart_timer(self):
+        self.round_time_left = 10
+        self.game_started = time.time()
 
 class Words:
     def __init__(self,file):
@@ -125,7 +140,7 @@ class Words:
 game1 = Game()
 w1 = Words("words.csv")
 
-@app.route('/')
+@app.route('/benupp')
 def index():
     global game1
     print("User:",request.remote_addr,"connected")
@@ -138,7 +153,7 @@ def index():
 def gues():
     return render_template("quesser.html")
 
-@app.route('/home')
+@app.route('/')
 def home():
     return render_template("home.html")    
 
@@ -151,17 +166,28 @@ def benu():
     return jsonify(d)
 
 
-@app.route('/start_game', methods = ['GET'])
+@app.route('/start_game', methods = ['POST'])
 def start_game():
     global game1
+    print(request.remote_addr)
+    request_data = request.json
     print("players this round",game1.get_players())
     # Set order of players
-    game1.update_order_list()
     game1.next_small_round()
-    print(game1.current_painter)
+    print(game1.round_time_left)
+    game1.game_started = time.time()
+    print(game1.game_started)
+    """
+    while game1.round_time_left > 0:
+        game1.tick()
+        time.sleep(1)
+        print(game1.round_time_left)"""
 
 
 
+@app.route('/benupp',methods = ['POST',"GET"])
+def start_gameaaa():
+    return render_template("scib.html")
 
 
 @app.route("/user_chose_word", methods=["POST"])
@@ -198,20 +224,33 @@ def login():
     global coordsx
     global coordsy
     global color
-    print(request.json)
+    global game1
     if request.method == "POST":
       request_data = request.json
 
       coordsx.append(request_data["currX"])
       coordsy.append(request_data["currY"])
       color = request_data["color"]
-      print(request_data)
+      print(round((game1.game_started + 10) - time.time(),2))
+      if round((game1.game_started + 10) - time.time(),2)<1:
+          print("made it")
+          return redirect("http://127.0.0.1:5000/home")
 
     elif request.method == "GET":
+      #print(time.time(), "-", game1.game_started + 10)
+      time_left = round((game1.game_started + 10) - time.time(),2)
+      if time_left<0:
+          game1.next_small_round()
+          game1.restart_timer()
+          print("BEFORE RED")
+          return redirect("http://127.0.0.1:5000/")
+
       d = {"currX": coordsx,
            "currY": coordsy,
-           "color": color
+           "color": color,
+           "time_left": time_left
            }
+
       return jsonify(d)
 
 

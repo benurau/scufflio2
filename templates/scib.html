@@ -86,15 +86,16 @@
         ctx.lineWidth = y;
         ctx.stroke();
         ctx.closePath();
-
+        var time_over =
 
 
 			req = $.ajax({
 
-	            data : JSON.stringify({"currX" : currX,
+	            data : JSON.stringify({
+                "currX" : currX,
 	            "currY" : currY,
 	            "color" : x,
-	            "host" : "on"
+	            "host" : "on",
 	            }),
 	            url: "/scrib",
 	            type: "POST",
@@ -113,8 +114,6 @@
             document.getElementById("canvasimg").style.display = "none";
         }
     }
-    
-    
 
     function myfunction(){
         req = $.ajax({
@@ -146,7 +145,28 @@
         console.log("p" + players)     
 
     }
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
 
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 60 * 5,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
     function remove(a){
         document.getElementById("buttons").style.display="none";
         var chosen_word = document.getElementById(a).innerText;
@@ -160,10 +180,11 @@
                 async: false
             }
         );
+        startTimer();
 
     }
 
-    
+
     
     
     function findxy(res, e) {
@@ -203,7 +224,7 @@
         <div id="chosen_one" style="position:absolute;top:5%;left:45%;text-size-adjust: 200%;" ></div>
         <div class="btn-group" id="buttons" role="group"  varia-label="Basic example">
             <center>
-
+                    <button type="button" class="btn btn-primary" id="0" onclick="remove(0)">Middle</button>
                   <button type="button" class="btn btn-primary" id="1" onclick="remove(1)">Middle</button>
                   <button type="button" class="btn btn-primary" id="2" onclick="remove(2)">Right</button>
                   <button type="button" class="btn btn-primary" id="3" onclick="remove(3)">Right</button>

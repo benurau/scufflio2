@@ -17,6 +17,7 @@
 
 	</head>
 	<body>
+	<div id="clock"></div>
 	<button style="position:absolute;top:94%;left:83%;" id="checkUsername">Check username</button>
 		<script type="text/javascript">
     var canvas, ctx, flag = false,
@@ -79,11 +80,13 @@
     }
     var timer = setInterval( draw, 10);
     function draw() {
-
+    	var time_left = ""
+		console.log("CP1")
         req = $.ajax({
-	            data : JSON.stringify({"currX" : currX,
+	            data : ({"currX" : currX,
 	            "currY" : currY,
-	            "color" : x
+	            "color" : x,
+				"time_left": time_left
 	            }),
 
 	            url: "/scrib",
@@ -94,8 +97,17 @@
         );
 
 
+		console.log(req)
         var parsed = JSON.parse(req.responseText);
-            console.log(parsed)
+		var timeleft = parsed["time_left"]
+		console.log(parsed["time_left"])
+		console.log(parsed)
+
+		document.getElementById("clock").innerText=timeleft;
+		if (timeleft < 0.1){
+			location.href='benupp'
+		}
+
         x = parsed.color;
         if (x == "white") y = 28;
         else y = 2;
@@ -190,6 +202,7 @@
 		});
     </script>
     <body onload="init()">
+
 	<iframe name="votar" style="display:none;"></iframe>
         <form action="#" method="POST; GET" >
             <input id="boxers" style="position:absolute;top:90%;left:80%;"  type="text"  name="fname">
