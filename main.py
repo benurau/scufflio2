@@ -234,7 +234,7 @@ def login():
       print(round((game1.game_started + 10) - time.time(),2))
       if round((game1.game_started + 10) - time.time(),2)<1:
           print("made it")
-          return redirect("http://127.0.0.1:5000/home")
+          return redirect("http://127.0.0.1:5000/",code=307)
 
     elif request.method == "GET":
       #print(time.time(), "-", game1.game_started + 10)
