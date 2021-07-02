@@ -171,6 +171,10 @@ def start_game():
     global game1
     print(request.remote_addr)
     request_data = request.json
+    print(request_data)
+    player_name = request_data["word"]
+    user1 = User(player_name)
+    game1.add_player(user1)
     print("players this round",game1.get_players())
     # Set order of players
     game1.next_small_round()
@@ -232,27 +236,30 @@ def login():
       coordsy.append(request_data["currY"])
       color = request_data["color"]
       print(round((game1.game_started + 10) - time.time(),2))
-      if round((game1.game_started + 10) - time.time(),2)<1:
+      if round((game1.game_started + 10) - time.time(),2)<0:
           print("made it")
-          return redirect("http://127.0.0.1:5000/",code=307)
+          #return redirect("http://127.0.0.1:5000/",code=307)
+          return jsonify({"gameend": True, "time": round((game1.game_started + 10) - time.time(), 2)})
+      else:
+          return jsonify({"gameend":False,"time":round((game1.game_started + 10) - time.time(),2)})
 
     elif request.method == "GET":
       #print(time.time(), "-", game1.game_started + 10)
-      time_left = round((game1.game_started + 10) - time.time(),2)
+      time_left = round((game1.game_started + 10) - time.time(),5)
       if time_left<0:
           game1.next_small_round()
           game1.restart_timer()
           print("BEFORE RED")
-          return redirect("http://127.0.0.1:5000/")
+          if request.remote_addr == game1.current_painter:
+            return redirect("http://127.0.0.1:5000/")
 
       d = {"currX": coordsx,
            "currY": coordsy,
            "color": color,
            "time_left": time_left
            }
-
       return jsonify(d)
 
 
 if __name__ == "__main__":
-  app.run()
+  app.run(host="0.0.0.0")
